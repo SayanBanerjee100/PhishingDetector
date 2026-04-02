@@ -56,7 +56,7 @@ export default function App() {
         }}>
           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
             <span>SYSTEM STATUS: OPERATIONAL</span>
-            <span>UPTIME: {Math.floor(Math.random() * 100) + 1} DAYS</span>
+            <span>UPTIME: 47 DAYS</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <span>VERSION: 2.0.1</span>
