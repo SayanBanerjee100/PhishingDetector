@@ -144,9 +144,9 @@ export function analyzeEmail(text) {
     reasons.push(`🔗 ${urlMatches.length} link(s) detected in email`);
     
     // Check for display text mismatch
-    const displayLinkMismatch = text.match(/\[([^\]]+)\]\(([^\)]+)\)/g) || [];
+    const displayLinkMismatch = text.match(/\[([^\]]+)\]\(([^)]+)\)/g) || [];
     displayLinkMismatch.forEach(match => {
-      const parts = match.match(/\[([^\]]+)\]\(([^\)]+)\)/);
+      const parts = match.match(/\[([^\]]+)\]\(([^)]+)\)/);
       if (parts && parts[1] !== parts[2]) {
         score += 15;
         reasons.push(`⚠️ CRITICAL: Link text doesn't match URL - potential spoofing`);
@@ -221,7 +221,7 @@ export function analyzeEmail(text) {
   }
 
   // 13. UNUSUAL FORMATTING
-  if (/\*{2,}|\_{2,}|={2,}|!{2,}/.test(text)) {
+  if (/\*{2,}|_{2,}|={2,}|!{2,}/.test(text)) {
     score += 5;
     reasons.push(`⚠️ Unusual text formatting (excessive emphasis)`);
   }

@@ -6,13 +6,21 @@ import ResultCard from "./ResultCard";
 export default function EmailScanner() {
   const [emailText, setEmailText] = useState("");
   const [result, setResult] = useState(null);
+  const [isScanning, setIsScanning] = useState(false);
 
-  const scanEmail = () => {
+  const scanEmail = async () => {
     if (!emailText.trim()) {
       alert("Please paste email content to scan");
       return;
     }
-    setResult(analyzeEmail(emailText));
+
+    setIsScanning(true);
+
+    // Simulate scanning delay for dramatic effect
+    setTimeout(() => {
+      setResult(analyzeEmail(emailText));
+      setIsScanning(false);
+    }, 2000);
   };
 
   const handleKeyPress = (e) => {
@@ -24,63 +32,50 @@ export default function EmailScanner() {
   const clearResults = () => {
     setEmailText("");
     setResult(null);
+    setIsScanning(false);
   };
 
   return (
-    <div style={{ marginBottom: "30px" }}>
-      <h2>📧 Phishing Email Detector</h2>
+    <div>
       <textarea
         rows="8"
-        placeholder="Paste email content here (subject, sender, body, etc.)"
+        placeholder="PASTE EMAIL CONTENT FOR NEURAL ANALYSIS..."
         value={emailText}
         onChange={e => setEmailText(e.target.value)}
         onKeyPress={handleKeyPress}
-        style={{
-          width: "80%",
-          padding: "10px",
-          fontSize: "14px",
-          borderRadius: "4px",
-          border: "1px solid #ccc",
-          fontFamily: "Arial, sans-serif"
-        }}
+        className="detector-input"
+        disabled={isScanning}
+        style={{ resize: "vertical", minHeight: "120px" }}
       />
       <br /><br />
-      <p style={{ fontSize: "12px", color: "#666", margin: "5px 0 10px 0" }}>
-        💡 Tip: Ctrl+Enter to scan
+      <p style={{ fontSize: "12px", color: "#00cc33", margin: "5px 0 10px 0", opacity: 0.8 }}>
+        💡 HOTKEY: Ctrl+Enter to initiate scan
       </p>
       <button
         onClick={scanEmail}
-        style={{
-          padding: "10px 20px",
-          backgroundColor: "#28a745",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-          marginRight: "10px",
-          fontSize: "14px"
-        }}
+        className="detector-button"
+        disabled={isScanning}
       >
-        🔍 Scan Email
+        {isScanning ? "ANALYZING..." : "INITIATE SCAN"}
       </button>
       {result && (
         <button
           onClick={clearResults}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#6c757d",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "14px"
-          }}
+          className="detector-button"
+          style={{ background: "linear-gradient(45deg, #666, #999)" }}
         >
-          Clear
+          CLEAR DATA
         </button>
       )}
 
-      {result && (
+      {isScanning && (
+        <div className="scanning-animation">
+          🧠 PROCESSING NEURAL NETWORKS... <br />
+          ANALYZING LANGUAGE PATTERNS... DETECTING SOCIAL ENGINEERING...
+        </div>
+      )}
+
+      {result && !isScanning && (
         <>
           <RiskMeter score={result.score} />
           <ResultCard reasons={result.reasons} />

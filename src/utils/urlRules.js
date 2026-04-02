@@ -33,7 +33,7 @@ export function analyzeUrl(url) {
     }
 
     // 5. CHECK FOR UNICODE/HOMOGRAPH ATTACKS
-    if (/[^\x00-\x7F]/.test(hostname)) {
+    if (hostname.split('').some(char => char.charCodeAt(0) > 127)) {
       score += 25;
       reasons.push("🚨 Unicode characters detected - homograph attack risk");
     }
@@ -151,7 +151,7 @@ export function analyzeUrl(url) {
       reasons.push("⚠️ Suspicious admin/config file path exposure");
     }
 
-  } catch (e) {
+  } catch {
     score = 50;
     reasons.push("❌ Invalid or malformed URL detected");
   }
