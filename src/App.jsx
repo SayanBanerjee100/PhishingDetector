@@ -4,66 +4,89 @@ import EmailScanner from "./components/EmailScanner";
 export default function App() {
   return (
     <div className="detector-container">
-      <div className="detector-screen">
-        <div className="detector-header">
-          <h1 className="detector-title">PHISHING DETECTOR v2.0</h1>
-          <p className="detector-subtitle">Advanced Neural Network Analysis System</p>
-          <div style={{ marginTop: "10px" }}>
-            <span className="status-indicator"></span>
-            SYSTEM ONLINE
+
+      <div className="detector-header">
+        <div className="header-badge">
+          <span className="header-dot" />
+          System Online
+        </div>
+        <h1 className="detector-title">
+          Phish<span>Guard</span>
+        </h1>
+        <p className="detector-subtitle">
+          Real-time phishing detection for URLs and email content — fully local, no data sent externally.
+        </p>
+        <div className="header-stats">
+          <div className="stat-item">
+            <span className="stat-value">50+</span>
+            <span className="stat-label">Detection Rules</span>
           </div>
-        </div>
-
-        <div className="detector-panel">
-          <h2 className="panel-title">🔗 URL ANALYSIS MODULE</h2>
-          <UrlScanner />
-        </div>
-
-        <div className="detector-panel">
-          <h2 className="panel-title">📧 EMAIL ANALYSIS MODULE</h2>
-          <EmailScanner />
-        </div>
-
-        <div className="info-panel">
-          <h3 className="panel-title-small">ℹ️ SYSTEM CAPABILITIES</h3>
-          <ul style={{ margin: "0", paddingLeft: "20px", color: "#00aaff", fontSize: "13px" }}>
-            <li><strong>URL Analysis:</strong> Neural pattern recognition for homograph attacks, domain spoofing, and malicious protocols</li>
-            <li><strong>Email Analysis:</strong> AI-powered detection of social engineering, impersonation, and fraudulent content</li>
-            <li><strong>Risk Scoring:</strong> Multi-layered algorithm combining 50+ detection vectors</li>
-            <li><strong>Local Processing:</strong> Zero external data transmission - complete privacy protection</li>
-          </ul>
-        </div>
-
-        <div className="warning-panel">
-          <h3 className="warning-title">⚠️ SECURITY PROTOCOL</h3>
-          <p style={{ margin: "0", fontSize: "12px", color: "#ffaa00" }}>
-            This system employs advanced heuristic analysis with 94.7% detection accuracy.
-            However, NO system is infallible. Always verify suspicious content through multiple channels
-            and maintain vigilance against evolving cyber threats. Never disclose sensitive information
-            based solely on automated analysis.
-          </p>
-        </div>
-
-        <div style={{
-          marginTop: "30px",
-          padding: "15px",
-          background: "rgba(0, 0, 0, 0.8)",
-          border: "1px solid rgba(0, 255, 65, 0.3)",
-          borderRadius: "5px",
-          fontSize: "11px",
-          color: "#00cc33",
-          fontFamily: "monospace"
-        }}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
-            <span>SYSTEM STATUS: OPERATIONAL</span>
-            <span>UPTIME: 47 DAYS</span>
+          <div className="stat-item">
+            <span className="stat-value">94.7%</span>
+            <span className="stat-label">Accuracy</span>
           </div>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <span>VERSION: 2.0.1</span>
-            <span>LAST UPDATE: {new Date().toLocaleDateString()}</span>
+          <div className="stat-item">
+            <span className="stat-value">v2.0</span>
+            <span className="stat-label">Engine</span>
+          </div>
+          <div className="stat-item">
+            <span className="stat-value">100%</span>
+            <span className="stat-label">Private</span>
           </div>
         </div>
       </div>
+
+      <div className="detector-panel">
+        <div className="panel-header">
+          <div className="panel-icon">🔗</div>
+          <div>
+            <div className="panel-title">URL Analysis</div>
+            <div className="panel-desc">Detect phishing links, spoofed domains & malicious patterns</div>
+          </div>
+        </div>
+        <UrlScanner />
+      </div>
+
+      <div className="detector-panel">
+        <div className="panel-header">
+          <div className="panel-icon">📧</div>
+          <div>
+            <div className="panel-title">Email Content Analysis</div>
+            <div className="panel-desc">Identify social engineering, impersonation & fraudulent language</div>
+          </div>
+        </div>
+        <EmailScanner />
+      </div>
+
+      <div className="info-section">
+        <div className="info-panel">
+          <div className="info-panel-title">ℹ️ Capabilities</div>
+          <ul className="capability-list">
+            <li>Homograph &amp; domain-spoofing detection</li>
+            <li>Misspelled brand name recognition (14 brands)</li>
+            <li>Suspicious subdomain &amp; TLD analysis</li>
+            <li>Social engineering language patterns</li>
+            <li>Sensitive data request detection</li>
+            <li>URL shortener / open redirect checks</li>
+          </ul>
+        </div>
+        <div className="warning-panel">
+          <div className="warning-panel-title">⚠️ Important Notice</div>
+          <p className="warning-text">
+            This tool uses heuristic analysis and achieves ~94.7% accuracy. No automated system is infallible — always verify suspicious content through additional channels and never share sensitive information based solely on this analysis.
+          </p>
+        </div>
+      </div>
+
+      <div className="app-footer">
+        <div className="footer-item">
+          <span className="footer-dot" />
+          OPERATIONAL
+        </div>
+        <div className="footer-item">ENGINE v2.0.1</div>
+        <div className="footer-item">LAST UPDATED: {new Date().toLocaleDateString()}</div>
+      </div>
+
     </div>
   );
 }

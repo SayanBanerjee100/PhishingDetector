@@ -8,70 +8,64 @@ export default function EmailScanner() {
   const [result, setResult] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
 
-  const scanEmail = async () => {
-    if (!emailText.trim()) {
-      alert("Please paste email content to scan");
-      return;
-    }
-
+  const scanEmail = () => {
+    if (!emailText.trim()) return;
     setIsScanning(true);
-
-    // Simulate scanning delay for dramatic effect
     setTimeout(() => {
       setResult(analyzeEmail(emailText));
       setIsScanning(false);
-    }, 2000);
+    }, 1600);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.ctrlKey && e.key === "Enter") {
-      scanEmail();
-    }
+  const handleKeyDown = (e) => {
+    if (e.ctrlKey && e.key === "Enter") scanEmail();
   };
 
   const clearResults = () => {
     setEmailText("");
     setResult(null);
-    setIsScanning(false);
   };
 
   return (
     <div>
-      <textarea
-        rows="8"
-        placeholder="PASTE EMAIL CONTENT FOR NEURAL ANALYSIS..."
-        value={emailText}
-        onChange={e => setEmailText(e.target.value)}
-        onKeyPress={handleKeyPress}
-        className="detector-input"
-        disabled={isScanning}
-        style={{ resize: "vertical", minHeight: "120px" }}
-      />
-      <br /><br />
-      <p style={{ fontSize: "12px", color: "#00cc33", margin: "5px 0 10px 0", opacity: 0.8 }}>
-        💡 HOTKEY: Ctrl+Enter to initiate scan
-      </p>
-      <button
-        onClick={scanEmail}
-        className="detector-button"
-        disabled={isScanning}
-      >
-        {isScanning ? "ANALYZING..." : "INITIATE SCAN"}
-      </button>
-      {result && (
-        <button
-          onClick={clearResults}
-          className="detector-button"
-          style={{ background: "linear-gradient(45deg, #666, #999)" }}
-        >
-          CLEAR DATA
+      <div className="input-wrapper">
+        <label className="input-label" htmlFor="email-input">Paste Email Content</label>
+        <textarea
+          id="email-input"
+          rows="7"
+          placeholder="Paste the full email body or subject line here…"
+          value={emailText}
+          onChange={e => setEmailText(e.target.value)}
+          onKeyDown={handleKeyDown}
+          className="detector-input"
+          disabled={isScanning}
+          style={{ minHeight: "120px" }}
+        />
+        <p className="hint-text">Tip: Ctrl + Enter to scan</p>
+      </div>
+
+      <div className="btn-row">
+        <button onClick={scanEmail} className="detector-button" disabled={isScanning || !emailText.trim()}>
+          {isScanning ? (
+            <>
+              <span className="scan-spinner" />
+              Analyzing…
+            </>
+          ) : (
+            <>🧠 Scan Email</>
+          )}
         </button>
-      )}
+        {result && (
+          <button onClick={clearResults} className="detector-button btn-secondary">
+            Clear
+          </button>
+        )}
+      </div>
 
       {isScanning && (
         <div className="scanning-animation">
-          🧠 PROCESSING NEURAL NETWORKS... <br />
-          ANALYZING LANGUAGE PATTERNS... DETECTING SOCIAL ENGINEERING...
+          <span className="scan-spinner" />
+          Analyzing language patterns and social engineering indicators…
         </div>
       )}
 

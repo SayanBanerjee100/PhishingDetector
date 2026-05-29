@@ -18,9 +18,15 @@ if (Test-Path .git) {
 }
 git init
 git add -A
-{ git commit -m "Initial commit" } 2>$null || Write-Host "Nothing to commit or commit failed."
+git commit -m "Initial commit" 2>$null
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "Nothing to commit or commit failed."
+}
 git branch -M main
-git remote add origin $repoUrl 2>$null || git remote set-url origin $repoUrl
+git remote add origin $repoUrl 2>$null
+if ($LASTEXITCODE -ne 0) {
+    git remote set-url origin $repoUrl
+}
 if ($ForcePush) {
     git push -u origin main --force
 } else {

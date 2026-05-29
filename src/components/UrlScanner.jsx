@@ -8,72 +8,69 @@ export default function UrlScanner() {
   const [result, setResult] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
 
-  const scanUrl = async () => {
-    if (!url.trim()) {
-      alert("Please enter a URL to scan");
-      return;
-    }
-
+  const scanUrl = () => {
+    if (!url.trim()) return;
     setIsScanning(true);
-
-    // Simulate scanning delay for dramatic effect
     setTimeout(() => {
       let urlToScan = url.trim();
-      // Auto-add https:// if no protocol specified
       if (!urlToScan.startsWith("http://") && !urlToScan.startsWith("https://")) {
         urlToScan = "https://" + urlToScan;
       }
-
       setResult(analyzeUrl(urlToScan));
       setIsScanning(false);
-    }, 1500);
+    }, 1200);
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      scanUrl();
-    }
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") scanUrl();
   };
 
   const clearResults = () => {
     setUrl("");
     setResult(null);
-    setIsScanning(false);
   };
 
   return (
     <div>
-      <input
-        type="text"
-        placeholder="ENTER URL FOR ANALYSIS..."
-        value={url}
-        onChange={e => setUrl(e.target.value)}
-        onKeyPress={handleKeyPress}
-        className="detector-input"
-        disabled={isScanning}
-      />
-      <br /><br />
-      <button
-        onClick={scanUrl}
-        className="detector-button"
-        disabled={isScanning}
-      >
-        {isScanning ? "ANALYZING..." : "INITIATE SCAN"}
-      </button>
-      {result && (
-        <button
-          onClick={clearResults}
-          className="detector-button"
-          style={{ background: "linear-gradient(45deg, #666, #999)" }}
-        >
-          CLEAR DATA
+      <div className="input-wrapper">
+        <label className="input-label" htmlFor="url-input">Enter URL</label>
+        <input
+          id="url-input"
+          type="text"
+          placeholder="https://example.com or paste any link..."
+          value={url}
+          onChange={e => setUrl(e.target.value)}
+          onKeyDown={handleKeyDown}
+          className="detector-input"
+          disabled={isScanning}
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <p className="hint-text">Tip: Press Enter to scan quickly</p>
+      </div>
+
+      <div className="btn-row">
+        <button onClick={scanUrl} className="detector-button" disabled={isScanning || !url.trim()}>
+          {isScanning ? (
+            <>
+              <span className="scan-spinner" />
+              Analyzing…
+            </>
+          ) : (
+            <>🔍 Scan URL</>
+          )}
         </button>
-      )}
+        {result && (
+          <button onClick={clearResults} className="detector-button btn-secondary">
+            Clear
+          </button>
+        )}
+      </div>
 
       {isScanning && (
         <div className="scanning-animation">
-          🔍 SCANNING NEURAL NETWORKS... <br />
-          ANALYZING PATTERNS... DETECTING ANOMALIES...
+          <span className="scan-spinner" />
+          Scanning domain patterns and threat indicators…
         </div>
       )}
 

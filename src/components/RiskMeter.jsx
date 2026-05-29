@@ -1,49 +1,48 @@
 export default function RiskMeter({ score }) {
   let riskClass = "safe";
-  let label = "SAFE";
-  let emoji = "✅";
-  let description = "Neural networks confirm this resource appears legitimate";
-  let color = "#00ff41";
+  let label = "Safe";
+  let description = "No significant phishing indicators detected.";
 
   if (score > 20 && score <= 40) {
     riskClass = "low";
-    label = "LOW RISK";
-    emoji = "⚠️";
-    description = "Minor anomalies detected - maintain security protocols";
-    color = "#ffaa00";
+    label = "Low Risk";
+    description = "Minor anomalies found — review the details below.";
   } else if (score > 40 && score <= 70) {
     riskClass = "medium";
-    label = "MEDIUM RISK";
-    emoji = "⚠️";
-    description = "Multiple threat indicators detected - high alert status";
-    color = "#ff8800";
+    label = "Medium Risk";
+    description = "Multiple threat indicators detected — exercise caution.";
   } else if (score > 70) {
     riskClass = "critical";
-    label = "CRITICAL THREAT";
-    emoji = "🚨";
-    description = "SEVERE MALICIOUS INDICATORS - IMMEDIATE ACTION REQUIRED";
-    color = "#ff4444";
+    label = "Critical Threat";
+    description = "Severe phishing indicators found — do not interact with this content.";
   }
 
   return (
-    <div className={`risk-meter ${riskClass}`}>
-      <h3 style={{ color, margin: "0 0 8px 0", textShadow: `0 0 5px ${color}` }}>
-        {emoji} THREAT LEVEL: {label} ({score}%)
-      </h3>
-      <p style={{ margin: "0 0 15px 0", color: "#ccc", fontSize: "14px" }}>
-        {description}
-      </p>
-      <div className="risk-bar">
+    <div className="risk-meter">
+      <div className="risk-header">
+        <div>
+          <div className={`risk-badge ${riskClass}`}>
+            {riskClass === "safe" && "✓ "}
+            {riskClass === "low" && "⚠ "}
+            {riskClass === "medium" && "⚠ "}
+            {riskClass === "critical" && "✕ "}
+            {label}
+          </div>
+          <p className="risk-description" style={{ marginTop: "8px" }}>{description}</p>
+        </div>
+        <div className={`risk-score ${riskClass}`}>{score}<span style={{ fontSize: "1rem", opacity: 0.6 }}>/100</span></div>
+      </div>
+
+      <div className="risk-bar-track">
         <div
-          className="risk-fill"
-          style={{
-            width: `${score}%`,
-            background: `linear-gradient(90deg, ${color}, ${score > 70 ? '#ff0000' : score > 40 ? '#ff8800' : '#00ff41'})`
-          }}
+          className={`risk-bar-fill ${riskClass}`}
+          style={{ width: `${score}%` }}
         />
       </div>
-      <div style={{ marginTop: "10px", fontSize: "12px", color: "#888" }}>
-        Confidence: {100 - score}% | Algorithm: Neural Pattern Recognition v2.0
+
+      <div className="risk-footer">
+        <span>THREAT SCORE: {score}%</span>
+        <span>ENGINE: Neural Pattern Recognition v2.0</span>
       </div>
     </div>
   );
